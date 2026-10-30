@@ -133,6 +133,8 @@ main:focus-visible {
 }
 
 .site-header {
+  position: relative;
+  z-index: 40;
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
@@ -147,6 +149,10 @@ main:focus-visible {
 }
 
 .header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
   padding: var(--space-4);
 }
 
@@ -154,6 +160,7 @@ main:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
   padding: var(--space-1);
   border-radius: var(--radius-md);
   color: inherit;
@@ -169,6 +176,7 @@ main:focus-visible {
 .brand-text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   gap: 2px;
 }
 
@@ -183,6 +191,89 @@ main:focus-visible {
   color: var(--color-text-muted);
   font-size: 0.875rem;
   line-height: 1.4;
+}
+
+.header-actions {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.icon-button .icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.icon-button:hover {
+  background: var(--color-surface-hover);
+}
+
+.icon-button[aria-expanded="true"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.settings-panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  inset-inline-end: 0;
+  z-index: 50;
+  width: min(18rem, calc(100vw - 2rem));
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-md);
+}
+
+.settings-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.settings-group legend {
+  margin-bottom: var(--space-2);
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.settings-option:hover {
+  background: var(--color-surface-hover);
+}
+
+.settings-option input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  accent-color: var(--color-accent);
 }
 
 .primary-nav {
@@ -510,13 +601,16 @@ main:focus-visible {
   .card,
   .content-block,
   .nav-link,
-  .text-link {
+  .text-link,
+  .icon-button,
+  .settings-panel {
     border-color: ButtonText;
   }
 
   .segmented-btn[aria-selected="true"],
   .segmented-btn[aria-pressed="true"],
-  .nav-link.is-active {
+  .nav-link.is-active,
+  .icon-button[aria-expanded="true"] {
     forced-color-adjust: none;
     background: Highlight;
     color: HighlightText;

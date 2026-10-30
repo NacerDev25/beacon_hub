@@ -9,28 +9,34 @@
 
     var blocks = Array.prototype.slice.call(document.querySelectorAll('.content-block[data-group]'));
     var status = document.getElementById('filter-status');
-    var labels = {
-      all: 'جميع الأقسام',
-      phone: 'أقسام الهاتف',
-      pc: 'أقسام الحاسوب',
-      channels: 'أقسام القنوات والمجتمعات'
-    };
+    var currentFilter = 'all';
+    var hasInteracted = false;
+
+    function translateStatus(filter) {
+      var i18n = window.BeaconHubI18n;
+      return i18n ? i18n.translate('status.' + filter) : '';
+    }
+
+    function updateStatus() {
+      if (status && hasInteracted) {
+        status.textContent = translateStatus(currentFilter);
+      }
+    }
 
     function applyFilter(selectedButton) {
-      var filter = selectedButton.getAttribute('data-filter');
+      currentFilter = selectedButton.getAttribute('data-filter');
 
       buttons.forEach(function (button) {
         button.setAttribute('aria-pressed', button === selectedButton ? 'true' : 'false');
       });
 
       blocks.forEach(function (block) {
-        var matches = filter === 'all' || block.getAttribute('data-group') === filter;
+        var matches = currentFilter === 'all' || block.getAttribute('data-group') === currentFilter;
         block.hidden = !matches;
       });
 
-      if (status) {
-        status.textContent = 'يتم عرض ' + (labels[filter] || 'المحتوى') + '.';
-      }
+      hasInteracted = true;
+      updateStatus();
     }
 
     buttons.forEach(function (button) {
@@ -38,6 +44,8 @@
         applyFilter(button);
       });
     });
+
+    document.addEventListener('languagechange', updateStatus);
   }
 
   function initTabs(tablist) {
