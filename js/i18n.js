@@ -13,7 +13,7 @@
       'nav.label': 'Primary navigation',
       'nav.home': 'Home',
       'nav.apps': 'Apps',
-      'nav.channels': 'Channels & Communities',
+      'nav.channels': 'Channels',
       'nav.more': 'More',
       'settings.label': 'Settings',
       'settings.language': 'Language',
@@ -73,7 +73,7 @@
       'nav.label': 'التنقل الرئيسي',
       'nav.home': 'الرئيسية',
       'nav.apps': 'التطبيقات',
-      'nav.channels': 'القنوات والمجتمعات',
+      'nav.channels': 'القنوات',
       'nav.more': 'المزيد',
       'settings.label': 'الإعدادات',
       'settings.language': 'اللغة',
@@ -133,7 +133,7 @@
       'nav.label': 'Navigation principale',
       'nav.home': 'Accueil',
       'nav.apps': 'Applications',
-      'nav.channels': 'Chaînes et communautés',
+      'nav.channels': 'Chaînes',
       'nav.more': 'Plus',
       'settings.label': 'Paramètres',
       'settings.language': 'Langue',
@@ -311,8 +311,14 @@
       if (panel.hidden) {
         return;
       }
-      const clickedOutside = !panel.contains(event.target) && !button.contains(event.target);
-      if (clickedOutside) {
+
+      const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+      const clickedInside = path.indexOf(panel) !== -1 ||
+        path.indexOf(button) !== -1 ||
+        panel.contains(event.target) ||
+        button.contains(event.target);
+
+      if (!clickedInside) {
         closePanel(false);
       }
     });

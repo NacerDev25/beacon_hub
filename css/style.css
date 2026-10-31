@@ -56,7 +56,7 @@ body {
     radial-gradient(60rem 30rem at 100% -20%, rgba(84, 122, 196, 0.18), transparent 60%),
     radial-gradient(50rem 25rem at 0% 0%, rgba(138, 180, 255, 0.08), transparent 55%);
   background-repeat: no-repeat;
-  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(4.25rem + env(safe-area-inset-bottom));
 }
 
 button {
@@ -153,7 +153,7 @@ main:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
 }
 
 .brand {
@@ -232,15 +232,40 @@ main:focus-visible {
 
 .settings-panel {
   position: absolute;
-  top: calc(100% + var(--space-2));
+  top: calc(100% + 10px);
   inset-inline-end: 0;
-  z-index: 50;
-  width: min(18rem, calc(100vw - 2rem));
+  z-index: 60;
+  width: min(17rem, calc(100vw - 1.5rem));
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
   padding: var(--space-4);
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--color-surface-raised);
   box-shadow: var(--shadow-md);
+  animation: settings-in 160ms ease-out;
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+@keyframes settings-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-title {
+  margin: 0 0 var(--space-3);
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .settings-group {
@@ -252,20 +277,26 @@ main:focus-visible {
 .settings-group legend {
   margin-bottom: var(--space-2);
   padding: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .settings-option {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
+  min-height: 2.5rem;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
-.settings-option:hover {
+.settings-option:hover,
+.settings-option:focus-within {
   background: var(--color-surface-hover);
 }
 
@@ -274,6 +305,10 @@ main:focus-visible {
   height: 1.1rem;
   margin: 0;
   accent-color: var(--color-accent);
+}
+
+.settings-option input:checked + span {
+  font-weight: 600;
 }
 
 .primary-nav {
@@ -290,9 +325,9 @@ main:focus-visible {
 .nav-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-1);
+  gap: 2px;
   margin: 0;
-  padding: var(--space-1) var(--space-2);
+  padding: 4px var(--space-2) 6px;
   list-style: none;
 }
 
@@ -307,16 +342,21 @@ main:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  min-height: 3.5rem;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-md);
+  gap: 2px;
+  min-height: 2.75rem;
+  padding: 3px 4px;
+  border-radius: var(--radius-sm);
   color: var(--color-text-muted);
-  font-size: 0.78rem;
-  line-height: 1.3;
+  font-size: clamp(0.68rem, 0.64rem + 0.2vw, 0.75rem);
+  line-height: 1.25;
   text-align: center;
   text-decoration: none;
   transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.nav-link .icon {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .nav-link:hover {
@@ -333,10 +373,10 @@ main:focus-visible {
 .nav-link.is-active::before {
   content: "";
   position: absolute;
-  bottom: 4px;
+  bottom: 2px;
   left: 50%;
-  width: 1.6rem;
-  height: 3px;
+  width: 1.1rem;
+  height: 2px;
   border-radius: var(--radius-pill);
   background: currentColor;
   transform: translateX(-50%);
@@ -381,14 +421,14 @@ main:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  min-height: 2.75rem;
-  padding: var(--space-2) var(--space-4);
+  gap: 6px;
+  min-height: 2.5rem;
+  padding: 6px 14px;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-text);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
@@ -526,6 +566,17 @@ main:focus-visible {
   font-size: 0.9rem;
 }
 
+@media (max-width: 480px) {
+  .site-slogan {
+    display: none;
+  }
+
+  .brand-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
 @media (min-width: 640px) {
   .segmented-btn {
     flex: 0 1 auto;
@@ -547,16 +598,22 @@ main:focus-visible {
 
   .nav-list {
     display: flex;
-    padding: var(--space-2) var(--space-4);
+    gap: 2px;
+    padding: 4px var(--space-4);
   }
 
   .nav-link {
     flex: 0 1 auto;
     flex-direction: row;
-    gap: var(--space-2);
-    min-height: auto;
-    padding: var(--space-2) var(--space-4);
-    font-size: 0.95rem;
+    gap: 6px;
+    min-height: 2.5rem;
+    padding: 6px 14px;
+    font-size: 0.875rem;
+  }
+
+  .nav-link .icon {
+    width: 1.15rem;
+    height: 1.15rem;
   }
 
   .nav-link.is-active {
