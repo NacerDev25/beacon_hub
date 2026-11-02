@@ -68,14 +68,31 @@
     <div class="settings-dialog__body">
       <div class="settings-option">
         <div class="settings-option__copy">
-          <label class="settings-option__label" for="light-theme-toggle">الوضع الفاتح</label>
-          <p class="settings-option__hint" id="light-theme-hint">عند تفعيله يظهر الموقع بالوضع الفاتح، وعند إيقافه بالوضع الداكن. يتبع إعداد جهازك افتراضيًا، ويُحفظ اختيارك على هذا المتصفح.</p>
+          <p class="settings-option__label">مظهر الموقع</p>
+          <p class="settings-option__hint" id="theme-toggle-hint">بدّل بين الوضع الفاتح والوضع الليلي. يتبع إعداد جهازك افتراضيًا، ويُحفظ اختيارك على هذا المتصفح.</p>
         </div>
-        <div class="theme-switch">
-          <input class="theme-switch__input" id="light-theme-toggle" type="checkbox" role="switch" aria-describedby="light-theme-hint">
-          <span class="theme-switch__track" aria-hidden="true"></span>
-        </div>
+        <button class="icon-button theme-toggle" type="button" id="theme-toggle" aria-label="الوضع الليلي" aria-pressed="false" aria-describedby="theme-toggle-hint">
+          <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+            </svg>
+          </span>
+        </button>
       </div>
+      <p class="visually-hidden" id="theme-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
   </dialog>
 </body>
