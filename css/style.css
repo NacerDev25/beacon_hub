@@ -160,14 +160,31 @@ a {
 }
 
 .site-brand {
+  display: inline-flex;
   grid-column: 1;
   grid-row: 1;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 100%;
   min-width: 0;
   font-size: 1.0625rem;
   font-weight: 800;
   line-height: 1.2;
   color: var(--color-text);
   overflow-wrap: anywhere;
+}
+
+.site-brand__mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.site-brand__name {
+  min-width: 0;
 }
 
 .site-header__bar .icon-button {
