@@ -4,6 +4,10 @@
   const THEME_STORAGE_KEY = "beacon-hub-theme";
   const LIGHT_THEME = "light";
   const DARK_THEME = "dark";
+  const THEME_MESSAGES = {
+    [LIGHT_THEME]: "تم العودة للوضع العادي",
+    [DARK_THEME]: "تم تفعيل الوضع الليلي",
+  };
   const root = document.documentElement;
   const systemThemeQuery = window.matchMedia("(prefers-color-scheme: light)");
 
@@ -38,22 +42,27 @@
     const settingsButton = document.getElementById("settings-button");
     const dialog = document.getElementById("settings-dialog");
     const closeButton = document.getElementById("settings-close-button");
-    const themeToggle = document.getElementById("light-theme-toggle");
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeStatus = document.getElementById("theme-status");
 
-    if (!settingsButton || !dialog || !closeButton || !themeToggle) {
+    if (!settingsButton || !dialog || !closeButton || !themeToggle || !themeStatus) {
       return;
     }
 
-    function updateTheme(theme, shouldStore) {
+    function updateTheme(theme, shouldStore, shouldAnnounce) {
       setDocumentTheme(theme);
-      themeToggle.checked = theme === LIGHT_THEME;
+      themeToggle.setAttribute("aria-pressed", String(theme === DARK_THEME));
 
       if (shouldStore) {
         storeTheme(theme);
       }
+
+      if (shouldAnnounce) {
+        themeStatus.textContent = THEME_MESSAGES[theme];
+      }
     }
 
-    themeToggle.checked = root.dataset.theme === LIGHT_THEME;
+    updateTheme(root.dataset.theme === LIGHT_THEME ? LIGHT_THEME : DARK_THEME, false, false);
 
     settingsButton.addEventListener("click", () => {
       dialog.showModal();
@@ -114,8 +123,9 @@
       }
     });
 
-    themeToggle.addEventListener("change", () => {
-      updateTheme(themeToggle.checked ? LIGHT_THEME : DARK_THEME, true);
+    themeToggle.addEventListener("click", () => {
+      const nextTheme = root.dataset.theme === DARK_THEME ? LIGHT_THEME : DARK_THEME;
+      updateTheme(nextTheme, true, true);
     });
 
     systemThemeQuery.addEventListener("change", (event) => {
@@ -123,7 +133,7 @@
         return;
       }
 
-      updateTheme(event.matches ? LIGHT_THEME : DARK_THEME, false);
+      updateTheme(event.matches ? LIGHT_THEME : DARK_THEME, false, false);
     });
   }
 
