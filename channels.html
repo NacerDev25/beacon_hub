@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="قنوات يوتيوب ومجموعات تيليغرام التقنية للمكفوفين وضعاف البصر.">
-  <title>Beacon Hub — القنوات</title>
+  <meta name="description" content="Technology YouTube channels and Telegram groups for blind and low-vision users." data-i18n-attr="content:page.channels.description">
+  <title data-i18n="page.channels.title">Beacon Hub — Channels</title>
   <link rel="icon" href="images/beacon-hub-mark.svg" type="image/svg+xml" sizes="any">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/settings.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">تخطي إلى المحتوى الرئيسي</a>
+  <a class="skip-link" href="#main-content" data-i18n="skipLink">Skip to main content</a>
 
   <header class="site-header">
     <div class="site-header__bar">
@@ -20,7 +20,7 @@
       </p>
 
       <form class="site-search" role="search">
-        <label class="site-search__label" for="site-search">بحث</label>
+        <label class="site-search__label" for="site-search" data-i18n="search.label">Search</label>
         <input class="site-search__input" id="site-search" name="q" type="search">
       </form>
 
@@ -31,22 +31,22 @@
           <circle cx="17" cy="17" r="3"></circle>
           <circle cx="7" cy="7" r="3"></circle>
         </svg>
-        <span class="visually-hidden">الإعدادات</span>
+        <span class="visually-hidden" data-i18n="settings.open">Settings</span>
       </button>
     </div>
 
-    <nav class="primary-nav" aria-label="التنقل الرئيسي">
+    <nav class="primary-nav" aria-label="Main navigation" data-i18n-attr="aria-label:nav.label">
       <ul class="primary-nav__list">
-        <li><a class="primary-nav__link" href="index.html">الرئيسية</a></li>
-        <li><a class="primary-nav__link" href="phone.html">الهاتف</a></li>
-        <li><a class="primary-nav__link" href="computer.html">الحاسوب</a></li>
-        <li><a class="primary-nav__link" href="channels.html" aria-current="page">القنوات</a></li>
+        <li><a class="primary-nav__link" href="index.html" data-i18n="nav.home">Home</a></li>
+        <li><a class="primary-nav__link" href="phone.html" data-i18n="nav.phone">Phone</a></li>
+        <li><a class="primary-nav__link" href="computer.html" data-i18n="nav.computer">Computer</a></li>
+        <li><a class="primary-nav__link" href="channels.html" aria-current="page" data-i18n="nav.channels">Channels</a></li>
       </ul>
     </nav>
   </header>
 
   <main id="main-content" tabindex="-1">
-    <h1>القنوات</h1>
+    <h1 data-i18n="page.channels.heading">Channels</h1>
   </main>
 
   <footer class="site-footer">
@@ -55,22 +55,22 @@
 
   <dialog class="settings-dialog" id="settings-dialog" aria-labelledby="settings-dialog-title">
     <div class="settings-dialog__header">
-      <h2 class="settings-dialog__title" id="settings-dialog-title">الإعدادات</h2>
+      <h2 class="settings-dialog__title" id="settings-dialog-title" data-i18n="settings.title">Settings</h2>
       <button class="icon-button settings-dialog__close" type="button" id="settings-close-button">
         <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <path d="m6 6 12 12"></path>
           <path d="m18 6-12 12"></path>
         </svg>
-        <span class="visually-hidden">إغلاق الإعدادات</span>
+        <span class="visually-hidden" data-i18n="settings.close">Close settings</span>
       </button>
     </div>
 
     <div class="settings-dialog__body">
       <div class="settings-option">
         <div class="settings-option__copy">
-          <p class="settings-option__label">مظهر الموقع</p>
+          <p class="settings-option__label" data-i18n="settings.theme.label">Site appearance</p>
         </div>
-        <button class="icon-button theme-toggle" type="button" id="theme-toggle" aria-label="الوضع الليلي" aria-pressed="false">
+        <button class="icon-button theme-toggle" type="button" id="theme-toggle" aria-label="Dark mode" aria-pressed="false" data-i18n-attr="aria-label:settings.theme.toggleLabel">
           <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
             <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"></circle>
@@ -92,7 +92,20 @@
         </button>
       </div>
       <p class="visually-hidden" id="theme-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="settings-option">
+        <div class="settings-option__copy">
+          <label class="settings-option__label" for="language-select" data-i18n="settings.language.label">Language</label>
+        </div>
+        <select class="settings-select" id="language-select" name="language">
+          <option value="en" lang="en" data-i18n="language.name.en">English</option>
+          <option value="fr" lang="fr" data-i18n="language.name.fr">Français</option>
+          <option value="ar" lang="ar" data-i18n="language.name.ar">العربية</option>
+        </select>
+      </div>
+      <p class="visually-hidden" id="language-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
   </dialog>
+  <script src="js/i18n.js"></script>
 </body>
 </html>
