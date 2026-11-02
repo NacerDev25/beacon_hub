@@ -7,6 +7,7 @@
   <title>Beacon Hub — الحاسوب</title>
   <link rel="icon" href="images/beacon-hub-mark.svg" type="image/svg+xml" sizes="any">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/settings.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">تخطي إلى المحتوى الرئيسي</a>
@@ -23,7 +24,7 @@
         <input class="site-search__input" id="site-search" name="q" type="search">
       </form>
 
-      <button class="icon-button" type="button" id="settings-button">
+      <button class="icon-button" type="button" id="settings-button" aria-haspopup="dialog" aria-controls="settings-dialog" aria-expanded="false">
         <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 7h-9"></path>
           <path d="M14 17H5"></path>
@@ -51,5 +52,31 @@
   <footer class="site-footer">
     <p>Beacon Hub</p>
   </footer>
+
+  <dialog class="settings-dialog" id="settings-dialog" aria-labelledby="settings-dialog-title">
+    <div class="settings-dialog__header">
+      <h2 class="settings-dialog__title" id="settings-dialog-title">الإعدادات</h2>
+      <button class="icon-button settings-dialog__close" type="button" id="settings-close-button">
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="m6 6 12 12"></path>
+          <path d="m18 6-12 12"></path>
+        </svg>
+        <span class="visually-hidden">إغلاق الإعدادات</span>
+      </button>
+    </div>
+
+    <div class="settings-dialog__body">
+      <div class="settings-option">
+        <div class="settings-option__copy">
+          <label class="settings-option__label" for="light-theme-toggle">الوضع الفاتح</label>
+          <p class="settings-option__hint" id="light-theme-hint">عند تفعيله يظهر الموقع بالوضع الفاتح، وعند إيقافه بالوضع الداكن. يتبع إعداد جهازك افتراضيًا، ويُحفظ اختيارك على هذا المتصفح.</p>
+        </div>
+        <div class="theme-switch">
+          <input class="theme-switch__input" id="light-theme-toggle" type="checkbox" role="switch" aria-describedby="light-theme-hint">
+          <span class="theme-switch__track" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </dialog>
 </body>
 </html>
