@@ -14,6 +14,7 @@
   --color-primary-active: #4a8ae6;
   --color-on-primary: #07101f;
   --color-focus: #ffc65c;
+  --color-backdrop: rgba(3, 6, 14, 0.72);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -39,6 +40,28 @@
   --container-width: 72rem;
   --page-gutter: clamp(1rem, 4vw, 2rem);
   --bottom-nav-space: 5rem;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: #f4f1ea;
+  --color-surface: #fbf9f4;
+  --color-surface-raised: #fffdf8;
+  --color-surface-hover: #ece7dc;
+  --color-border: #d9d1c2;
+  --color-border-strong: #756d5e;
+  --color-text: #1f2430;
+  --color-text-muted: #525b6b;
+  --color-primary: #1f5fa8;
+  --color-primary-hover: #174a85;
+  --color-primary-active: #103a6b;
+  --color-on-primary: #fbf9f4;
+  --color-focus: #7a4a00;
+  --color-backdrop: rgba(31, 36, 48, 0.62);
+
+  --shadow-sm: 0 1px 2px rgba(31, 36, 48, 0.12);
+  --shadow-md: 0 16px 40px rgba(31, 36, 48, 0.2);
 }
 
 *,
@@ -363,6 +386,167 @@ main h1 {
   font-size: 0.875rem;
 }
 
+.settings-dialog {
+  width: min(28rem, calc(100% - var(--space-6)));
+  max-height: calc(100vh - var(--space-6));
+  max-height: calc(100svh - var(--space-6));
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+}
+
+.settings-dialog::backdrop {
+  background-color: var(--color-backdrop);
+}
+
+.settings-dialog[open] {
+  animation: settings-dialog-enter 160ms ease-out;
+}
+
+@keyframes settings-dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-2)) scale(0.98);
+  }
+}
+
+.settings-dialog__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  padding-inline-start: var(--space-5);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.settings-dialog__title {
+  min-width: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.settings-dialog__close {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
+
+.settings-dialog__body {
+  padding: var(--space-5);
+}
+
+.settings-option {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.settings-option__copy {
+  min-width: 0;
+}
+
+.settings-option__label {
+  display: block;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.settings-option__hint {
+  margin-block-start: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.theme-switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 3rem;
+}
+
+.theme-switch__input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.theme-switch__track {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline: 0;
+  height: 1.75rem;
+  transform: translateY(-50%);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-hover);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.theme-switch__track::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: var(--color-text);
+  transition:
+    inset-inline-start var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.theme-switch__input:focus-visible {
+  outline: none;
+}
+
+.theme-switch__input:focus-visible + .theme-switch__track {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.theme-switch__input:checked + .theme-switch__track {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+.theme-switch__input:checked + .theme-switch__track::after {
+  inset-inline-start: calc(100% - 1.5rem);
+  background-color: var(--color-on-primary);
+}
+
+@media (max-width: 30rem) {
+  .settings-option {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .settings-option__copy {
+    overflow-wrap: anywhere;
+  }
+
+  .theme-switch {
+    justify-self: end;
+  }
+}
+
 @media (hover: hover) {
   a:hover {
     color: var(--color-primary-hover);
@@ -385,6 +569,15 @@ main h1 {
 
   .primary-nav__link[aria-current="page"]:hover {
     color: var(--color-primary-hover);
+  }
+
+  .theme-switch__input:hover + .theme-switch__track {
+    border-color: var(--color-primary);
+  }
+
+  .theme-switch__input:checked:hover + .theme-switch__track {
+    border-color: var(--color-primary-hover);
+    background-color: var(--color-primary-hover);
   }
 }
 
@@ -458,6 +651,12 @@ main h1 {
     --color-text-muted: #dbe3f2;
   }
 
+  :root[data-theme="light"] {
+    --color-border: #6f685b;
+    --color-border-strong: #4a453c;
+    --color-text-muted: #36404f;
+  }
+
   :focus-visible {
     outline-width: 4px;
   }
@@ -478,6 +677,43 @@ main h1 {
   .primary-nav__link {
     background-color: Canvas;
     color: CanvasText;
+  }
+
+  .settings-dialog {
+    border-color: CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .settings-dialog::backdrop {
+    background-color: Canvas;
+    opacity: 0.6;
+  }
+
+  .settings-dialog__header {
+    border-color: CanvasText;
+  }
+
+  .theme-switch__track {
+    border-color: CanvasText;
+    background-color: Canvas;
+  }
+
+  .theme-switch__input:checked + .theme-switch__track {
+    border-color: Highlight;
+    background-color: Highlight;
+  }
+
+  .theme-switch__track::after {
+    background-color: CanvasText;
+  }
+
+  .theme-switch__input:checked + .theme-switch__track::after {
+    background-color: HighlightText;
+  }
+
+  .theme-switch__input:focus-visible + .theme-switch__track {
+    outline-color: Highlight;
   }
 
   .site-search::before {
@@ -502,5 +738,9 @@ main h1 {
 @media (prefers-reduced-motion: reduce) {
   :root {
     --transition-fast: 0ms;
+  }
+
+  .settings-dialog[open] {
+    animation: none;
   }
 }
