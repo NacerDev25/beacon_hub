@@ -440,7 +440,9 @@ main h1 {
 }
 
 .settings-dialog__body {
-  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(1rem, 4vw, 1.5rem);
 }
 
 .settings-option {
@@ -458,6 +460,41 @@ main h1 {
   display: block;
   font-weight: 700;
   line-height: 1.4;
+}
+
+.settings-option label.settings-option__label {
+  cursor: pointer;
+}
+
+.settings-select {
+  min-inline-size: 0;
+  inline-size: 100%;
+  max-inline-size: 12rem;
+  min-height: var(--touch-target);
+  justify-self: end;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+  font: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.settings-select option {
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+.settings-select:focus-visible {
+  border-color: var(--color-focus);
+  outline-offset: 2px;
 }
 
 .theme-toggle {
@@ -513,6 +550,11 @@ main h1 {
     overflow-wrap: anywhere;
   }
 
+  .settings-select {
+    max-inline-size: none;
+    justify-self: stretch;
+  }
+
   .theme-toggle {
     justify-self: end;
   }
@@ -528,6 +570,12 @@ main h1 {
   }
 
   .icon-button:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-primary);
+    color: var(--color-primary-hover);
+  }
+
+  .settings-select:hover {
     background-color: var(--color-surface-hover);
     border-color: var(--color-primary);
     color: var(--color-primary-hover);
@@ -631,13 +679,20 @@ main h1 {
   .primary-nav,
   .site-search__input,
   .icon-button,
+  .settings-select,
   .skip-link {
     border-color: CanvasText;
   }
 
   .site-search__input,
   .icon-button,
+  .settings-select,
   .primary-nav__link {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .settings-select option {
     background-color: Canvas;
     color: CanvasText;
   }

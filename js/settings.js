@@ -4,9 +4,13 @@
   const THEME_STORAGE_KEY = "beacon-hub-theme";
   const LIGHT_THEME = "light";
   const DARK_THEME = "dark";
-  const THEME_MESSAGES = {
-    [LIGHT_THEME]: "تم العودة للوضع العادي",
-    [DARK_THEME]: "تم تفعيل الوضع الليلي",
+  const THEME_MESSAGE_KEYS = {
+    [LIGHT_THEME]: "theme.status.light",
+    [DARK_THEME]: "theme.status.dark",
+  };
+  const THEME_MESSAGE_FALLBACKS = {
+    [LIGHT_THEME]: "Switched to light mode.",
+    [DARK_THEME]: "Dark mode enabled.",
   };
   const root = document.documentElement;
   const systemThemeQuery = window.matchMedia("(prefers-color-scheme: light)");
@@ -22,6 +26,14 @@
 
   function getPreferredTheme() {
     return getStoredTheme() || (systemThemeQuery.matches ? LIGHT_THEME : DARK_THEME);
+  }
+
+  function getThemeMessage(theme) {
+    if (window.BeaconI18n && typeof window.BeaconI18n.translate === "function") {
+      return window.BeaconI18n.translate(THEME_MESSAGE_KEYS[theme]);
+    }
+
+    return THEME_MESSAGE_FALLBACKS[theme];
   }
 
   function setDocumentTheme(theme) {
@@ -58,11 +70,15 @@
       }
 
       if (shouldAnnounce) {
-        themeStatus.textContent = THEME_MESSAGES[theme];
+        themeStatus.textContent = getThemeMessage(theme);
       }
     }
 
     updateTheme(root.dataset.theme === LIGHT_THEME ? LIGHT_THEME : DARK_THEME, false, false);
+
+    document.addEventListener("beacon:languagechange", () => {
+      themeStatus.textContent = "";
+    });
 
     settingsButton.addEventListener("click", () => {
       dialog.showModal();
