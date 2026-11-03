@@ -39,7 +39,7 @@
 
   --container-width: 72rem;
   --page-gutter: clamp(1rem, 4vw, 2rem);
-  --bottom-nav-space: 5rem;
+  --bottom-nav-space: 6.5rem;
 }
 
 :root[data-theme="light"] {
@@ -320,8 +320,10 @@ a {
 .primary-nav__link {
   display: flex;
   flex: 1;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-1);
   min-height: var(--touch-target);
   padding: var(--space-1);
   border-radius: var(--radius-sm);
@@ -337,6 +339,12 @@ a {
     color var(--transition-fast);
 }
 
+.primary-nav__icon {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 .primary-nav__link:focus-visible {
   outline-offset: -3px;
 }
@@ -346,6 +354,10 @@ a {
   color: var(--color-primary);
   font-weight: 800;
   box-shadow: inset 0 2px 0 var(--color-primary);
+}
+
+.primary-nav__link[aria-current="page"] .primary-nav__icon {
+  stroke-width: 2.2;
 }
 
 .primary-nav__link:active {
@@ -636,9 +648,16 @@ main h1 {
   }
 
   .primary-nav__link {
+    flex-direction: row;
+    gap: var(--space-2);
     min-height: var(--touch-target);
     padding: var(--space-2) var(--space-4);
     font-size: 0.9375rem;
+  }
+
+  .primary-nav__icon {
+    width: 1.125rem;
+    height: 1.125rem;
   }
 
   .primary-nav__link:focus-visible {
@@ -719,6 +738,12 @@ main h1 {
   .primary-nav__link[aria-current="page"] {
     color: Highlight;
     box-shadow: inset 0 2px 0 Highlight;
+  }
+
+  .primary-nav__link[aria-current="page"] .primary-nav__label {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
   }
 
   .skip-link {
