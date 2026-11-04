@@ -12,6 +12,19 @@
     [LIGHT_THEME]: "Switched to light mode.",
     [DARK_THEME]: "Dark mode enabled.",
   };
+  const FONT_SIZE_STORAGE_KEY = "beacon-hub-font-size";
+  const DEFAULT_FONT_SIZE = "default";
+  const FONT_SIZES = ["default", "large", "extra-large"];
+  const FONT_SIZE_MESSAGE_KEYS = {
+    default: "settings.fontSize.status.default",
+    large: "settings.fontSize.status.large",
+    "extra-large": "settings.fontSize.status.extraLarge",
+  };
+  const FONT_SIZE_MESSAGE_FALLBACKS = {
+    default: "Font size set to default.",
+    large: "Font size set to large.",
+    "extra-large": "Font size set to extra large.",
+  };
   const root = document.documentElement;
   const systemThemeQuery = window.matchMedia("(prefers-color-scheme: light)");
 
@@ -48,7 +61,72 @@
     }
   }
 
+  function getStoredFontSize() {
+    try {
+      const storedFontSize = window.localStorage.getItem(FONT_SIZE_STORAGE_KEY);
+      return FONT_SIZES.includes(storedFontSize) ? storedFontSize : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getFontSizeMessage(fontSize) {
+    if (window.BeaconI18n && typeof window.BeaconI18n.translate === "function") {
+      return window.BeaconI18n.translate(FONT_SIZE_MESSAGE_KEYS[fontSize]);
+    }
+
+    return FONT_SIZE_MESSAGE_FALLBACKS[fontSize];
+  }
+
+  function setDocumentFontSize(fontSize) {
+    root.dataset.fontSize = FONT_SIZES.includes(fontSize) ? fontSize : DEFAULT_FONT_SIZE;
+  }
+
+  function storeFontSize(fontSize) {
+    try {
+      window.localStorage.setItem(FONT_SIZE_STORAGE_KEY, fontSize);
+    } catch {
+      return;
+    }
+  }
+
+  const initialFontSize = getStoredFontSize() || DEFAULT_FONT_SIZE;
+
   setDocumentTheme(getPreferredTheme());
+  setDocumentFontSize(initialFontSize);
+
+  function initializeBottomNavSpacing() {
+    const nav = document.querySelector(".primary-nav");
+
+    if (!nav) {
+      return;
+    }
+
+    let animationFrame = 0;
+
+    function updateSpacing() {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(() => {
+        const navHeight = nav.getBoundingClientRect().height;
+
+        if (navHeight > 0) {
+          root.style.setProperty(
+            "--bottom-nav-space",
+            `calc(${Math.ceil(navHeight)}px + var(--space-2))`
+          );
+        }
+      });
+    }
+
+    updateSpacing();
+
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(updateSpacing).observe(nav);
+    }
+
+    window.addEventListener("resize", updateSpacing);
+    window.addEventListener("load", updateSpacing, { once: true });
+  }
 
   function initializeSettingsDialog() {
     const settingsButton = document.getElementById("settings-button");
@@ -56,8 +134,18 @@
     const closeButton = document.getElementById("settings-close-button");
     const themeToggle = document.getElementById("theme-toggle");
     const themeStatus = document.getElementById("theme-status");
+    const fontSizeSelect = document.getElementById("font-size-select");
+    const fontSizeStatus = document.getElementById("font-size-status");
 
-    if (!settingsButton || !dialog || !closeButton || !themeToggle || !themeStatus) {
+    if (
+      !settingsButton ||
+      !dialog ||
+      !closeButton ||
+      !themeToggle ||
+      !themeStatus ||
+      !fontSizeSelect ||
+      !fontSizeStatus
+    ) {
       return;
     }
 
@@ -74,10 +162,26 @@
       }
     }
 
+    function updateFontSize(fontSize, shouldStore, shouldAnnounce) {
+      const nextFontSize = FONT_SIZES.includes(fontSize) ? fontSize : DEFAULT_FONT_SIZE;
+      setDocumentFontSize(nextFontSize);
+      fontSizeSelect.value = nextFontSize;
+
+      if (shouldStore) {
+        storeFontSize(nextFontSize);
+      }
+
+      if (shouldAnnounce) {
+        fontSizeStatus.textContent = getFontSizeMessage(nextFontSize);
+      }
+    }
+
     updateTheme(root.dataset.theme === LIGHT_THEME ? LIGHT_THEME : DARK_THEME, false, false);
+    updateFontSize(initialFontSize, false, false);
 
     document.addEventListener("beacon:languagechange", () => {
       themeStatus.textContent = "";
+      fontSizeStatus.textContent = "";
     });
 
     settingsButton.addEventListener("click", () => {
@@ -144,6 +248,10 @@
       updateTheme(nextTheme, true, true);
     });
 
+    fontSizeSelect.addEventListener("change", () => {
+      updateFontSize(fontSizeSelect.value, true, true);
+    });
+
     systemThemeQuery.addEventListener("change", (event) => {
       if (getStoredTheme() !== null) {
         return;
@@ -154,8 +262,16 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeSettingsDialog, { once: true });
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+        initializeSettingsDialog();
+        initializeBottomNavSpacing();
+      },
+      { once: true }
+    );
   } else {
     initializeSettingsDialog();
+    initializeBottomNavSpacing();
   }
 })();
