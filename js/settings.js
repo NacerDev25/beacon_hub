@@ -25,6 +25,7 @@
     large: "Font size set to large.",
     "extra-large": "Font size set to extra large.",
   };
+  const SUPPORT_EMAIL = "support@example.com";
   const root = document.documentElement;
   const systemThemeQuery = window.matchMedia("(prefers-color-scheme: light)");
 
@@ -128,6 +129,60 @@
     window.addEventListener("load", updateSpacing, { once: true });
   }
 
+  function getFocusableElements(container) {
+    return Array.from(
+      container.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])'
+      )
+    );
+  }
+
+  function trapFocusWithinDialog(dialog) {
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusableElements = getFocusableElements(dialog);
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (!firstElement || !lastElement) {
+        return;
+      }
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+        return;
+      }
+
+      if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    });
+  }
+
+  function closeDialogOnBackdropClick(dialog) {
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) {
+        return;
+      }
+
+      const dialogBounds = dialog.getBoundingClientRect();
+      const clickedOutsideDialog =
+        event.clientX < dialogBounds.left ||
+        event.clientX > dialogBounds.right ||
+        event.clientY < dialogBounds.top ||
+        event.clientY > dialogBounds.bottom;
+
+      if (clickedOutsideDialog) {
+        dialog.close();
+      }
+    });
+  }
+
   function initializeSettingsDialog() {
     const settingsButton = document.getElementById("settings-button");
     const dialog = document.getElementById("settings-dialog");
@@ -194,54 +249,14 @@
       dialog.close();
     });
 
-    dialog.addEventListener("keydown", (event) => {
-      if (event.key !== "Tab") {
-        return;
-      }
-
-      const focusableElements = dialog.querySelectorAll(
-        'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'
-      );
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (!firstElement || !lastElement) {
-        return;
-      }
-
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault();
-        lastElement.focus();
-        return;
-      }
-
-      if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault();
-        firstElement.focus();
-      }
-    });
+    trapFocusWithinDialog(dialog);
 
     dialog.addEventListener("close", () => {
       settingsButton.setAttribute("aria-expanded", "false");
       settingsButton.focus();
     });
 
-    dialog.addEventListener("click", (event) => {
-      if (event.target !== dialog) {
-        return;
-      }
-
-      const dialogBounds = dialog.getBoundingClientRect();
-      const clickedOutsideDialog =
-        event.clientX < dialogBounds.left ||
-        event.clientX > dialogBounds.right ||
-        event.clientY < dialogBounds.top ||
-        event.clientY > dialogBounds.bottom;
-
-      if (clickedOutsideDialog) {
-        dialog.close();
-      }
-    });
+    closeDialogOnBackdropClick(dialog);
 
     themeToggle.addEventListener("click", () => {
       const nextTheme = root.dataset.theme === DARK_THEME ? LIGHT_THEME : DARK_THEME;
@@ -261,17 +276,83 @@
     });
   }
 
+  function initializeSupportSection() {
+    document.querySelectorAll("[data-support-email]").forEach((element) => {
+      element.textContent = SUPPORT_EMAIL;
+      element.setAttribute("href", `mailto:${SUPPORT_EMAIL}`);
+    });
+  }
+
+  function initializeTermsDialog() {
+    const termsButton = document.getElementById("terms-open-button");
+    const dialog = document.getElementById("terms-dialog");
+    const closeButton = document.getElementById("terms-close-button");
+    const supportDetails = document.getElementById("settings-support");
+    const supportLink = dialog ? dialog.querySelector("[data-terms-support-link]") : null;
+
+    if (!termsButton || !dialog || !closeButton || !supportDetails || !supportLink) {
+      return;
+    }
+
+    let shouldReturnFocusToTermsButton = true;
+
+    termsButton.addEventListener("click", () => {
+      dialog.showModal();
+      termsButton.setAttribute("aria-expanded", "true");
+      closeButton.focus();
+    });
+
+    closeButton.addEventListener("click", () => {
+      dialog.close();
+    });
+
+    dialog.addEventListener("close", () => {
+      termsButton.setAttribute("aria-expanded", "false");
+
+      if (shouldReturnFocusToTermsButton) {
+        termsButton.focus();
+      }
+
+      shouldReturnFocusToTermsButton = true;
+    });
+
+    supportLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      shouldReturnFocusToTermsButton = false;
+      dialog.close();
+
+      window.requestAnimationFrame(() => {
+        supportDetails.open = true;
+
+        const summary = supportDetails.querySelector("summary");
+        if (!summary) {
+          return;
+        }
+
+        summary.focus({ preventScroll: true });
+        summary.scrollIntoView({ block: "center" });
+      });
+    });
+
+    trapFocusWithinDialog(dialog);
+    closeDialogOnBackdropClick(dialog);
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener(
       "DOMContentLoaded",
       () => {
+        initializeSupportSection();
         initializeSettingsDialog();
+        initializeTermsDialog();
         initializeBottomNavSpacing();
       },
       { once: true }
     );
   } else {
+    initializeSupportSection();
     initializeSettingsDialog();
+    initializeTermsDialog();
     initializeBottomNavSpacing();
   }
 })();

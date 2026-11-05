@@ -469,6 +469,53 @@ main h1 {
   padding: clamp(1rem, 4vw, 1.5rem);
 }
 
+.terms-dialog {
+  width: min(46rem, calc(100% - var(--space-6)));
+}
+
+.terms-dialog__header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background-color: var(--color-surface);
+}
+
+.terms-dialog__body {
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(1rem, 4vw, 1.5rem);
+}
+
+.terms-dialog__updated {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.terms-dialog__section {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.terms-dialog__section-title {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.terms-dialog__section p,
+.terms-dialog__updated {
+  overflow-wrap: anywhere;
+}
+
+.terms-dialog__link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
 .settings-option {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -519,6 +566,102 @@ main h1 {
 .settings-select:focus-visible {
   border-color: var(--color-focus);
   outline-offset: 2px;
+}
+
+.settings-support {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+}
+
+.settings-support__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.settings-support__summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings-support__summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--transition-fast);
+}
+
+.settings-support[open] .settings-support__summary::after {
+  transform: rotate(225deg);
+}
+
+.settings-support__summary:focus-visible {
+  outline-offset: -3px;
+}
+
+.settings-support__body {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.settings-support__body p {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.settings-support__email {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  max-inline-size: 100%;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.settings-terms-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.settings-terms-button:focus-visible {
+  border-color: var(--color-focus);
+  outline-offset: 2px;
+}
+
+.settings-support__summary:active,
+.settings-terms-button:active {
+  background-color: var(--color-surface-hover);
+  color: var(--color-primary-active);
 }
 
 .theme-toggle {
@@ -577,7 +720,8 @@ main h1 {
     padding-inline-start: var(--space-4);
   }
 
-  .settings-dialog__body {
+  .settings-dialog__body,
+  .terms-dialog__body {
     padding: var(--space-3);
   }
 
@@ -615,6 +759,17 @@ main h1 {
   }
 
   .settings-select:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-primary);
+    color: var(--color-primary-hover);
+  }
+
+  .settings-support__summary:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-primary-hover);
+  }
+
+  .settings-terms-button:hover {
     background-color: var(--color-surface-hover);
     border-color: var(--color-primary);
     color: var(--color-primary-hover);
@@ -726,6 +881,8 @@ main h1 {
   .site-search__input,
   .icon-button,
   .settings-select,
+  .settings-support,
+  .settings-terms-button,
   .skip-link {
     border-color: CanvasText;
   }
@@ -733,6 +890,9 @@ main h1 {
   .site-search__input,
   .icon-button,
   .settings-select,
+  .settings-support,
+  .settings-support__summary,
+  .settings-terms-button,
   .primary-nav__link {
     background-color: Canvas;
     color: CanvasText;
@@ -756,6 +916,11 @@ main h1 {
 
   .settings-dialog__header {
     border-color: CanvasText;
+  }
+
+  .terms-dialog__header {
+    background-color: Canvas;
+    color: CanvasText;
   }
 
   .site-search::before {

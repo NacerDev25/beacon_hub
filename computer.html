@@ -151,6 +151,85 @@
         </select>
       </div>
       <p class="visually-hidden" id="font-size-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <details class="settings-support" id="settings-support">
+        <summary class="settings-support__summary" data-i18n="settings.support.label">Support</summary>
+        <div class="settings-support__body">
+          <p data-i18n="settings.support.description">For removal requests or general support, contact our team by email.</p>
+          <a class="settings-support__email" href="mailto:support@example.com" data-support-email data-i18n-attr="aria-label:settings.support.emailLabel">support@example.com</a>
+        </div>
+      </details>
+
+      <button class="settings-terms-button" type="button" id="terms-open-button" aria-haspopup="dialog" aria-controls="terms-dialog" aria-expanded="false" data-i18n="settings.terms.open">Terms of Use</button>
+    </div>
+  </dialog>
+
+  <dialog class="settings-dialog terms-dialog" id="terms-dialog" aria-labelledby="terms-dialog-title" aria-describedby="terms-dialog-intro">
+    <div class="settings-dialog__header terms-dialog__header">
+      <h2 class="settings-dialog__title" id="terms-dialog-title" data-i18n="terms.title">Terms of Use</h2>
+      <button class="icon-button settings-dialog__close" type="button" id="terms-close-button">
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="m6 6 12 12"></path>
+          <path d="m18 6-12 12"></path>
+        </svg>
+        <span class="visually-hidden" data-i18n="terms.close">Close terms of use</span>
+      </button>
+    </div>
+
+    <div class="terms-dialog__body">
+      <p class="terms-dialog__updated"><time datetime="2026-11-05" data-i18n="terms.updated">Last updated: 5 November 2026</time></p>
+      <p id="terms-dialog-intro" data-i18n="terms.intro">Welcome to Beacon Hub. These terms explain how to use the platform and the nature of our relationship with you. By using the platform, you agree to these terms.</p>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.about.title">About the platform</h3>
+        <p data-i18n="terms.about.body">Beacon Hub is a free platform that helps users discover apps, screen readers, audio games, and channels suited to blind and low-vision users. These resources are presented as links and descriptive information.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.free.title">A free platform</h3>
+        <p data-i18n="terms.free.body">The platform is provided entirely free of charge. We do not charge users for access to the content or for viewing links, and we do not aim to make a profit from them.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.links.title">How links work</h3>
+        <p data-i18n="terms.links.body">The platform works as a link directory. When you select an app or channel link, you may be taken to an app store or an external website operated by another party, which applies its own terms and policies.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.external.title">External services</h3>
+        <p data-i18n="terms.external.body">The platform does not host apps, files, or external content, and does not control their content, updates, prices, availability, security, or compatibility with devices or screen readers. Displaying a link does not imply a partnership or endorsement by the platform unless explicitly stated.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.responsibility.title">Your responsibility</h3>
+        <p data-i18n="terms.responsibility.body">You are responsible for verifying an app or external service before downloading it, making a purchase, or sharing data. We recommend reviewing that party’s terms and privacy policy before use.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.removal.title">Removing an app listing</h3>
+        <p data-i18n="terms.removal.body">If you own or develop an app listed on the platform and want its link removed, contact our support team by email at the address shown in the Support section, including the app name, its link, and evidence of ownership or authorization. We will review the request in good faith and respond within a reasonable time. Removal applies only to the app link on the platform and does not remove the app from an app store or any other external service.</p>
+        <a class="terms-dialog__link" href="#settings-support" data-terms-support-link data-i18n="terms.removal.link">Go to the Support section</a>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.ip.title">Intellectual property</h3>
+        <p data-i18n="terms.ip.body">All rights relating to the Beacon Hub name, logo, design, interface, and original content belong to the Beacon Hub platform unless otherwise stated. No part may be copied, modified, reused, or distributed without prior written permission. These rights do not cover the names, logos, or content of external apps and services.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.acceptable.title">Acceptable use</h3>
+        <p data-i18n="terms.acceptable.body">You may not use the platform for unlawful or harmful activity, attempt to disrupt or damage it or related services, or impersonate the platform owner or support team.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.liability.title">Limitation of liability</h3>
+        <p data-i18n="terms.liability.body">The platform makes reasonable efforts to keep links accurate and up to date, but does not guarantee that any external app or service will remain available or be free of errors. To the extent permitted by law, the platform is not liable for any loss or damage arising from the use of external websites or apps or reliance on their content.</p>
+      </section>
+
+      <section class="terms-dialog__section">
+        <h3 class="terms-dialog__section-title" data-i18n="terms.changes.title">Changes</h3>
+        <p data-i18n="terms.changes.body">These terms may be updated from time to time to reflect platform improvements or legal requirements. Continued use of the platform after an update is published constitutes acceptance of the updated version.</p>
+      </section>
     </div>
   </dialog>
   <script src="js/i18n.js"></script>
