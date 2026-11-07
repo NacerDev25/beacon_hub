@@ -482,6 +482,36 @@ main h1 {
   padding: clamp(1rem, 4vw, 1.5rem);
 }
 
+.install-dialog {
+  width: min(26rem, calc(100% - var(--space-6)));
+}
+
+.install-dialog__body {
+  display: grid;
+  gap: var(--space-3);
+  padding: clamp(1rem, 4vw, 1.5rem);
+}
+
+.install-dialog__title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.install-dialog__description {
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.install-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-block-start: var(--space-2);
+}
+
 .terms-dialog {
   width: min(46rem, calc(100% - var(--space-6)));
 }
@@ -548,6 +578,17 @@ main h1 {
 
 .settings-option label.settings-option__label {
   cursor: pointer;
+}
+
+.settings-install__copy {
+  overflow-wrap: anywhere;
+}
+
+.settings-install__status {
+  margin-block-start: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .settings-select {
@@ -645,7 +686,9 @@ main h1 {
   overflow-wrap: anywhere;
 }
 
-.settings-terms-button {
+.settings-terms-button,
+.settings-install__button,
+.install-dialog__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -666,7 +709,31 @@ main h1 {
     color var(--transition-fast);
 }
 
-.settings-terms-button:focus-visible {
+.settings-install__button {
+  width: auto;
+  justify-self: end;
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.settings-install__button[hidden] {
+  display: none;
+}
+
+.install-dialog__button {
+  width: auto;
+}
+
+.install-dialog__button--primary {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.settings-terms-button:focus-visible,
+.settings-install__button:focus-visible,
+.install-dialog__button:focus-visible {
   border-color: var(--color-focus);
   outline-offset: 2px;
 }
@@ -675,6 +742,18 @@ main h1 {
 .settings-terms-button:active {
   background-color: var(--color-surface-hover);
   color: var(--color-primary-active);
+}
+
+.install-dialog__button:active {
+  background-color: var(--color-surface-hover);
+  color: var(--color-primary-active);
+}
+
+.settings-install__button:active,
+.install-dialog__button--primary:active {
+  border-color: var(--color-primary-active);
+  background-color: var(--color-primary-active);
+  color: var(--color-on-primary);
 }
 
 .theme-toggle {
@@ -754,6 +833,19 @@ main h1 {
   .theme-toggle {
     justify-self: end;
   }
+
+  .settings-install__button {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .install-dialog__actions {
+    flex-direction: column;
+  }
+
+  .install-dialog__button {
+    width: 100%;
+  }
 }
 
 @media (hover: hover) {
@@ -783,6 +875,19 @@ main h1 {
   }
 
   .settings-terms-button:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-primary);
+    color: var(--color-primary-hover);
+  }
+
+  .settings-install__button:hover,
+  .install-dialog__button--primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-on-primary);
+  }
+
+  .install-dialog__button:hover {
     background-color: var(--color-surface-hover);
     border-color: var(--color-primary);
     color: var(--color-primary-hover);
@@ -896,6 +1001,8 @@ main h1 {
   .settings-select,
   .settings-support,
   .settings-terms-button,
+  .settings-install__button,
+  .install-dialog__button,
   .skip-link {
     border-color: CanvasText;
   }
@@ -906,9 +1013,18 @@ main h1 {
   .settings-support,
   .settings-support__summary,
   .settings-terms-button,
+  .settings-install__button,
+  .install-dialog__button,
   .primary-nav__link {
     background-color: Canvas;
     color: CanvasText;
+  }
+
+  .settings-install__button,
+  .install-dialog__button--primary {
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
   }
 
   .settings-select option {
