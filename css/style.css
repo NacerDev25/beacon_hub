@@ -422,6 +422,10 @@ main h1 {
   font-size: 0.875rem;
 }
 
+.site-footer__developer {
+  margin-block-start: var(--space-2);
+}
+
 .settings-dialog {
   width: min(28rem, calc(100% - var(--space-6)));
   max-width: none;
