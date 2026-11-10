@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v2";
 const CACHE_PREFIX = "beacon-hub-";
 const CACHE_NAME = `${CACHE_PREFIX}${CACHE_VERSION}`;
 const PRECACHE_PATHS = [
@@ -15,10 +15,10 @@ const PRECACHE_PATHS = [
   "./js/pwa.js",
   "./manifest.webmanifest",
   "./images/beacon-hub-mark.svg",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./icon-512-maskable.png",
-  "./apple-touch-icon-180.png",
+  "./images/icons/icon-192.png",
+  "./images/icons/icon-512.png",
+  "./images/icons/icon-512-maskable.png",
+  "./images/icons/apple-touch-icon-180.png",
 ];
 const PRECACHE_URLS = PRECACHE_PATHS.map((path) => new URL(path, self.location).href);
 const OFFLINE_URL = new URL("./index.html", self.location).href;
